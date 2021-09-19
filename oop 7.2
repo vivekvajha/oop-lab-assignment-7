@@ -1,0 +1,110 @@
+#include <iostream>
+using namespace std;
+
+class External1;     //forward declaration of class External1
+class Internal1      //class Internal1 created
+{
+    private:
+    int math, oop, se, ds;
+    public:
+    void readInternal()       //function for reading the marks of each subject
+    {
+        cout<<"Enter the internal marks of math: "<<endl;
+        cin>>math;
+        cout<<"Enter the internal marks of oop: "<<endl;
+        cin>>oop;
+        cout<<"Enter the internal marks of se: "<<endl;
+        cin>>se;
+        cout<<"Enter the internal marks of ds: "<<endl;
+        cin>>ds;
+    }
+    friend void operator +(Internal1, External1);    //declaring friend function for + operator overloading
+    friend void passStatus(Internal1, External1);    //declaring friend function for calculating total marks and %
+    
+};
+class External1      //class External1 created
+{
+    private:
+    int math1, oop1, se1, ds1;
+    public:
+    void readExternal()    // defining the function for reading the external marks
+    {
+        cout<<"Enter the external marks of math: "<<endl;
+        cin>>math1;
+        cout<<"Enter the external marks of oop: "<<endl;
+        cin>>oop1;
+        cout<<"Enter the external marks of se: "<<endl;
+        cin>>se1;
+        cout<<"Enter the external marks of ds: "<<endl;
+        cin>>ds1;
+        
+    }
+    friend void operator +(Internal1, External1);      //declaring friend function for + operator overloading
+    friend void passStatus(Internal1, External1);      //declaring friend function for calculating total marks and %
+};
+
+void operator +(Internal1 I1, External1 E1)        //defining function for + operator overloading
+{
+    cout<<"Total marks for math: "<<I1.math+E1.math1<<endl;
+    cout<<"Total marks for oop: "<<I1.oop+E1.oop1<<endl;
+    cout<<"Total marks for se: "<<I1.se+E1.se1<<endl;
+    cout<<"Total marks for ds: "<<I1.ds+E1.ds1<<endl;
+    
+}
+void passStatus(Internal1 i, External1 e)  //defining function for calculating total marks and % and pass status
+{
+    if((i.math+e.math1)<50)
+    {
+        cout<<"The student has FAILED the math subject"<<endl;
+    }
+    else if((i.math+e.math1)>50)
+    {
+        cout<<"The student has PASSED the math subject"<<endl;
+    }
+    
+    if((i.oop+e.oop1)<50)
+    {
+        cout<<"The student has FAILED the oop subject"<<endl;
+    }
+    else if((i.oop+e.oop1)>50)
+    {
+        cout<<"The student has PASSED the oop subject"<<endl;
+    }
+    
+    if((i.se+e.se1)<50)
+    {
+        cout<<"The student has FAILED the se subject"<<endl;
+    }
+    else if((i.se+e.se1)>50)
+    {
+        cout<<"The student has PASSED the se subject"<<endl;
+    }
+    
+    if ((i.ds+e.ds1)<50)
+    {
+        cout<<"The student has FAILED the ds subject"<<endl;
+    }
+    else if((i.ds+e.ds1)>50)
+    {
+        cout<<"The student has PASSED the ds subject"<<endl;
+    }
+    cout<<"*****************************************"<<endl;
+    int totalMarks;
+    totalMarks=((i.math+e.math1)+(i.oop+e.oop1)+(i.se+e.se1)+(i.ds+e.ds1));  //for calculating total marks
+    cout<<"The total marks out of 400 are: "<<totalMarks<<endl;
+    
+    float percentage;
+    percentage=(totalMarks/4);
+    cout<<"Total percentage: "<<percentage<<"%"<<endl;   //for calculating the %
+}
+
+int main()
+{
+    Internal1 I;  //obejct I created
+    External1 E;  //object E created
+    I.readInternal();
+    E.readExternal();
+    I+E;        //+ operator overloaded
+    passStatus(I,E);
+    
+}
