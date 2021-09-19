@@ -1,110 +1,92 @@
-#include <iostream>
+#include<iostream>
+#include<cstring>
 using namespace std;
 
-class External1;     //forward declaration of class External1
-class Internal1      //class Internal1 created
+class Doctor  //class Doctor created
 {
     private:
-    int math, oop, se, ds;
-    public:
-    void readInternal()       //function for reading the marks of each subject
-    {
-        cout<<"Enter the internal marks of math: "<<endl;
-        cin>>math;
-        cout<<"Enter the internal marks of oop: "<<endl;
-        cin>>oop;
-        cout<<"Enter the internal marks of se: "<<endl;
-        cin>>se;
-        cout<<"Enter the internal marks of ds: "<<endl;
-        cin>>ds;
-    }
-    friend void operator +(Internal1, External1);    //declaring friend function for + operator overloading
-    friend void passStatus(Internal1, External1);    //declaring friend function for calculating total marks and %
+    char name[30], area[30];
     
-};
-class External1      //class External1 created
-{
-    private:
-    int math1, oop1, se1, ds1;
     public:
-    void readExternal()    // defining the function for reading the external marks
+    void readData();  //defining function for reading data
+    void sortList();  //defining function for sorting the list
+    void displayArea(); //defining function for disp the area in alphabetical order 
+    
+    int operator <(Doctor D)  //function for overloading < operator
     {
-        cout<<"Enter the external marks of math: "<<endl;
-        cin>>math1;
-        cout<<"Enter the external marks of oop: "<<endl;
-        cin>>oop1;
-        cout<<"Enter the external marks of se: "<<endl;
-        cin>>se1;
-        cout<<"Enter the external marks of ds: "<<endl;
-        cin>>ds1;
-        
+        if(area<D.area)
+        {
+            return 1;
+        }
+        else if(area>D.area)
+        {
+            return 0;
+        }
     }
-    friend void operator +(Internal1, External1);      //declaring friend function for + operator overloading
-    friend void passStatus(Internal1, External1);      //declaring friend function for calculating total marks and %
+    
+    
 };
 
-void operator +(Internal1 I1, External1 E1)        //defining function for + operator overloading
+const int size=5;    //array size
+int arr;
+Doctor details[size];   //array for inputting details of 5 doctors
+Doctor temp;
+
+void Doctor::readData()  //defining the function for reading the doctors' data
 {
-    cout<<"Total marks for math: "<<I1.math+E1.math1<<endl;
-    cout<<"Total marks for oop: "<<I1.oop+E1.oop1<<endl;
-    cout<<"Total marks for se: "<<I1.se+E1.se1<<endl;
-    cout<<"Total marks for ds: "<<I1.ds+E1.ds1<<endl;
+    for(int i=0; i<size; i++)
+    {
+        cout<<"Enter the name of the Doctor: "<<endl;
+        cin>>details[i].name;
+        
+        cout<<"Enter the area: "<<endl;
+        cin>>details[i].area;
+    }
     
 }
-void passStatus(Internal1 i, External1 e)  //defining function for calculating total marks and % and pass status
+
+void Doctor::sortList()  //defining the function for sorting the doctors' data in alphabetical order 
 {
-    if((i.math+e.math1)<50)
-    {
-        cout<<"The student has FAILED the math subject"<<endl;
-    }
-    else if((i.math+e.math1)>50)
-    {
-        cout<<"The student has PASSED the math subject"<<endl;
-    }
+    int i, j;
+    for(i=0;i<size;i++)
+	{		
+		for(j=i+1;j<size;j++)
+		{
+		    
+			if(strcmp(details[i].area,details[j].area)>=0)      
+			{
+				temp=details[i];                           
+				details[i]=details[j];
+				details[j]=temp;
+			}
+		}
+	}
     
-    if((i.oop+e.oop1)<50)
-    {
-        cout<<"The student has FAILED the oop subject"<<endl;
-    }
-    else if((i.oop+e.oop1)>50)
-    {
-        cout<<"The student has PASSED the oop subject"<<endl;
-    }
-    
-    if((i.se+e.se1)<50)
-    {
-        cout<<"The student has FAILED the se subject"<<endl;
-    }
-    else if((i.se+e.se1)>50)
-    {
-        cout<<"The student has PASSED the se subject"<<endl;
-    }
-    
-    if ((i.ds+e.ds1)<50)
-    {
-        cout<<"The student has FAILED the ds subject"<<endl;
-    }
-    else if((i.ds+e.ds1)>50)
-    {
-        cout<<"The student has PASSED the ds subject"<<endl;
-    }
-    cout<<"*****************************************"<<endl;
-    int totalMarks;
-    totalMarks=((i.math+e.math1)+(i.oop+e.oop1)+(i.se+e.se1)+(i.ds+e.ds1));  //for calculating total marks
-    cout<<"The total marks out of 400 are: "<<totalMarks<<endl;
-    
-    float percentage;
-    percentage=(totalMarks/4);
-    cout<<"Total percentage: "<<percentage<<"%"<<endl;   //for calculating the %
+	for(int i=0;i<size;i++)      //for displaying the list in alphabetical order
+	{
+	    cout<<"Doctor name: "<<details[i].name<<endl;
+	    cout<<"Doctor area: "<<details[i].area<<endl;
+	}
 }
+
+void Doctor::displayArea()     //defining the function for displaying the area in alphabetical order
+{
+    for(int i=0; i<size; i++)
+    {
+        cout<<"Area: "<<details[i].area<<endl;    
+    }
+    
+}
+
 
 int main()
 {
-    Internal1 I;  //obejct I created
-    External1 E;  //object E created
-    I.readInternal();
-    E.readExternal();
-    I+E;        //+ operator overloaded
-    passStatus(I,E);
+    Doctor d1, d2;  //objects d1 and d2 created
+    d1.readData();
+    d1.sortList();
+    if(d1<d2)
+        d1.displayArea();
+    else
+        d2.displayArea();
     
 }
